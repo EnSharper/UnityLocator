@@ -2,7 +2,7 @@
   "name": "com.ensharper.unitylocator",
   "displayName": "UnityLocator",
   "version": "1.0.0",
-  "unity": "6000",
+  "unity": "2018.3",
   "description": "Locator System for Unity",
   "license": "MIT",
   "dependencies": {}
