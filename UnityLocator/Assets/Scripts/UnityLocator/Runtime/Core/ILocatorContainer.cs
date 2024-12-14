@@ -1,4 +1,6 @@
-﻿namespace Ensharp.UnityLocator.Core
+﻿#nullable enable
+
+namespace Ensharp.UnityLocator.Core
 {
     public interface ILocatorContainer
     {
@@ -7,7 +9,8 @@
         /// </summary>
         /// <param name="locatorService">登録するサービス</param>
         /// <typeparam name="TLocatorService">サービスの型情報</typeparam>
-        public void Register<TLocatorService>(TLocatorService locatorService)
+        public void Register<TLocatorService>(
+            TLocatorService? locatorService)
             where TLocatorService : class, ILocatorService;
 
         /// <summary>
@@ -15,7 +18,8 @@
         /// </summary>
         /// <param name="service">解除するサービス</param>
         /// <typeparam name="TLocatorService">解除するサービスの型情報</typeparam>
-        public void Unregister<TLocatorService>(TLocatorService service)
+        public void Unregister<TLocatorService>(
+            TLocatorService? service)
             where TLocatorService : class, ILocatorService;
 
         /// <summary>
@@ -25,13 +29,13 @@
         /// <returns></returns>
         public bool IsRegistered<TLocatorService>()
             where TLocatorService : class, ILocatorService;
-        
+
         /// <summary>
         /// 登録されているサービスを取得する
         /// </summary>
         /// <typeparam name="TLocatorService">取得するサービスの型情報</typeparam>
         /// <returns></returns>
-        public TLocatorService Resolve<TLocatorService>()
+        public TLocatorService? Resolve<TLocatorService>()
             where TLocatorService : class, ILocatorService;
 
         /// <summary>
@@ -40,7 +44,8 @@
         /// <param name="service">対象のサービスが存在した際、そのサービスが渡される</param>
         /// <typeparam name="TLocatorService">取得するサービスの型情報</typeparam>
         /// <returns></returns>
-        public bool TryResolve<TLocatorService>(out TLocatorService service)
+        public bool TryResolve<TLocatorService>(
+            out TLocatorService? service)
             where TLocatorService : class, ILocatorService;
 
         /// <summary>

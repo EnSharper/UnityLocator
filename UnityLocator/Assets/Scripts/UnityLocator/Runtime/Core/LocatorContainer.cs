@@ -1,9 +1,10 @@
 ﻿// #define ENABLE_LOG
-
-// ReSharper disable SuspiciousTypeConversion.Global
 using System;
 using System.Collections.Generic;
 using System.Linq;
+
+// ReSharper disable SuspiciousTypeConversion.Global
+#nullable enable
 
 namespace Ensharp.UnityLocator.Core
 {
@@ -15,7 +16,8 @@ namespace Ensharp.UnityLocator.Core
         private readonly Dictionary<Type, ILocatorService> _services = new();
 
         /// <inheritdoc/>
-        public void Register<TLocatorService>(TLocatorService locatorService)
+        public void Register<TLocatorService>(
+            TLocatorService? locatorService)
             where TLocatorService : class, ILocatorService
         {
             if (locatorService == null)
@@ -32,16 +34,17 @@ namespace Ensharp.UnityLocator.Core
         }
 
         /// <inheritdoc/>
-        public void Unregister<TLocatorService>(TLocatorService service)
+        public void Unregister<TLocatorService>(
+            TLocatorService? service)
             where TLocatorService : class, ILocatorService
         {
             var registeredService = _services.FirstOrDefault(pair => Equals(pair.Value, service));
             if (registeredService.Key == null)
             {
-                LogWarn($"The passed service is not registered: {service.GetType()}");
+                LogWarn($"The passed service is not registered: {typeof(TLocatorService)}");
                 return;
             }
-            
+
             if (registeredService.Value is IDisposable disposable)
             {
                 disposable.Dispose();
@@ -60,7 +63,7 @@ namespace Ensharp.UnityLocator.Core
         }
 
         /// <inheritdoc/>
-        public TLocatorService Resolve<TLocatorService>()
+        public TLocatorService? Resolve<TLocatorService>()
             where TLocatorService : class, ILocatorService
         {
             var type = typeof(TLocatorService);
@@ -74,7 +77,8 @@ namespace Ensharp.UnityLocator.Core
         }
 
         /// <inheritdoc/>
-        public bool TryResolve<TLocatorService>(out TLocatorService service)
+        public bool TryResolve<TLocatorService>(
+            out TLocatorService? service)
             where TLocatorService : class, ILocatorService
         {
             var type = typeof(TLocatorService);
@@ -83,7 +87,7 @@ namespace Ensharp.UnityLocator.Core
                 service = registeredService as TLocatorService;
                 return true;
             }
-            
+
             service = null;
             return false;
         }
@@ -103,19 +107,19 @@ namespace Ensharp.UnityLocator.Core
         }
 
         [System.Diagnostics.ConditionalAttribute("ENABLE_LOG")]
-        private void Log(string message)
+        private static void Log(string message)
         {
             UnityEngine.Debug.Log(message);
         }
 
         [System.Diagnostics.ConditionalAttribute("ENABLE_LOG")]
-        private void LogWarn(string message)
+        private static void LogWarn(string message)
         {
             UnityEngine.Debug.LogWarning(message);
         }
-        
+
         [System.Diagnostics.ConditionalAttribute("ENABLE_LOG")]
-        private void LogError(string message)
+        private static void LogError(string message)
         {
             UnityEngine.Debug.LogError(message);
         }

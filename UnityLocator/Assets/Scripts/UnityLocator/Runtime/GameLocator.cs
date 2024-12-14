@@ -8,7 +8,7 @@ namespace Ensharp.UnityLocator
     public static class GameLocator
     {
         private static readonly ILocatorContainer LocatorContainer = new LocatorContainer();
-        
+
         public static void Register<TLocatorService>(TLocatorService locatorService)
             where TLocatorService : class, ILocatorService
         {
@@ -27,13 +27,13 @@ namespace Ensharp.UnityLocator
             return LocatorContainer.IsRegistered<TLocatorService>();
         }
 
-        public static TLocatorService Get<TLocatorService>()
+        public static TLocatorService Resolve<TLocatorService>()
             where TLocatorService : class, ILocatorService
         {
             return LocatorContainer.Resolve<TLocatorService>();
         }
 
-        public static bool TryGet<TLocatorService>(out TLocatorService service)
+        public static bool TryResolve<TLocatorService>(out TLocatorService service)
             where TLocatorService : class, ILocatorService
         {
             return LocatorContainer.TryResolve<TLocatorService>(out service);
